@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+
+  <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
+  <!-- <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script> -->
+</head>
+<body>
+  <video
+    id="my-video"
+    class="video-js"
+    controls
+    preload="auto"
+    width="640"
+    height="264"
+    poster="MY_VIDEO_POSTER.jpg"
+    data-setup="{}"
+    autoplay 
+    
+  >
+    <source src="https://video-downloads.googleusercontent.com/ADGPM2kySOTpHCM0tWA8iTDgljqxK-WEORtq4vObi48ySUqZ6vXlcjNoYA8aO_voyzclf-1y_RcKCg6ahr0Vy8omD5WsYx1Tr4YBPRUz6TWvD-0BT5rlgQA_Tvhi0hzXwxIPvIjetsOsKJSEzEBtO7-poRKuxNFr3Ga8wHgsMfo9yblk5h8uUbPG5k8hwcmGuyAeu4ONuMgxkhLa5TWrj11ECYL0eu5CZVhody7prTg5jsr6g80O7oKST9DEJM78-CnwCD_wWubl0oWbsim2E5dsQSH6e4FwSI1P-aJ0426CzMB3zeKRk-kva9ulu5OXrICSynHOj6aJ5-bT7CpfvEU8JIYtRyEFOZj0NtPj8NC4DACjwB3nVFtEb2xuXd_t4LbJazPSc716svA8weHX_At61Fj9141npR4A1vQohU3m4EriwxHYwEgJ7g2Zg3il9Z_1ObGbhMUQ0N2biUobSALuUgB2eu_H5g8Xt-Jc7jImoIxEazHC9JbKMLV1WFk3l8QQZ6Ro0wx_7CLkQsQaq7pjgM-1hujOhsv7qYPHNeqlVfBnbfyAFMYPi2mzeqB0JNh-58IeHLA5t-8rbUX00tBF66sdi-reG6K2M4GeybTO6iTuQlzsh_fudjZ-pWjsFRzw33JIw4aJ09Ousgf6umnbam5q15eVM0f538sjDY4Y-EPczV60l5TkSv9xJTegiyHdI1Ml7sCStSH3p4gPzUKFqhP0u4gDg-FtHST6-zFVfTDJC9qG5JlNuefQ3TTsJ-kqrzlKmoP_HbjinAXJ8qyFQyi3IWTKEqzjJmWVNQ_ZUGz2zRS58Gjtd1dIzFTDgbIU3q381kmxoho1KHc4dptZKYOTe--1Hyxr0RsPx6EQJCqmdSyrXhcQiWa9PNFVk34DmHhZN4jHoRvawYoOpBhEGEpKt3gve9h_W7j-ZnMJu3Vy-k-hhYBdU4MjT4eqngJVfaBEZeVpcHRCD2p1kUHVRkKqa9kU1DCwBGwRipc-9OtE6YOS7fxRg6GwTxFSwh9h74t8vM8DJKs76T-EFxfkCXgBqjzjoRv4HhKG2M7ehmmJ8sVSRGUGiTmkL5IQZix76vk3S4WF?authuser=0" type="video/mp4"/>
+    <p class="vjs-no-js">
+      To view this video please enable JavaScript, and consider upgrading to a
+      web browser that
+      <a href="https://videojs.com/html5-video-support/" target="_blank"
+        >supports HTML5 video</a
+      >
+    </p>
+  </video>
+  <script>
+    var video = document.getElementById('my-video');
+
+    video.addEventListener('timeupdate', function() {
+      sessionStorage.setItem('videoPlaybackProgress', video.currentTime);
+    });
+
+    var savedProgress = sessionStorage.getItem('videoPlaybackProgress');
+    if (savedProgress) {
+      video.currentTime = parseFloat(savedProgress);
+    }
+  </script>
+  <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+</body>
+<body>
+</body>
+</html>
+
+
