@@ -2,9 +2,6 @@
 <html lang="en">
 <head>
   <link href="https://vjs.zencdn.net/8.16.1/video-js.css" rel="stylesheet" />
-
-  <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
-  <!-- <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script> -->
 </head>
 <body>
   <video
@@ -17,9 +14,8 @@
     poster="MY_VIDEO_POSTER.jpg"
     data-setup="{}"
     autoplay 
-    
   >
-    <source src="https://s3.filebin.net/filebin/951f071152ed8fa49cf5c06689b4ef612bfdb7034f0f40a4972f39a3ae0dfd53/daf153b8d52321f933b7c587314bb84fbf769c0229bb7dc21dda878c7d651bf0?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=7pMj6hGeoKewqmMQILjm%2F20241101%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241101T160053Z&X-Amz-Expires=60&X-Amz-SignedHeaders=host&response-cache-control=max-age%3D60&response-content-disposition=filename%3D%22Meiyazhagan.mp4%22&response-content-type=video%2Fmp4&X-Amz-Signature=183c9bf386a2e7613a2a96190d29ef5b93f3e49d3e71aababab429c4f40d6aef" type="video/mp4"/>
+    <source id="video-source" src="" type="video/mp4"/>
     <track kind="subtitles" src="https://raw.githubusercontent.com/Methusan105/Movies/main/Meiyazhagan/Meiyazhagan.vtt" srclang="en" label="English" default>
     <p class="vjs-no-js">
       To view this video please enable JavaScript, and consider upgrading to a
@@ -30,6 +26,24 @@
     </p>
   </video>
   <script>
+    const binId = '6mind8jsruso70d8';
+    const fileName = 'Meiyazhagan.mp4';
+
+    fetch(`https://filebin.net/${binId}`)
+      .then(response => response.json())
+      .then(data => {
+        const fileInfo = data.files.find(file => file.filename === fileName);
+        if (fileInfo) {
+          const videoSource = document.getElementById('video-source');
+          videoSource.src = `https://filebin.net/${binId}/${fileName}`;
+          const video = document.getElementById('my-video');
+          video.load(); // Reload the video with the new source
+        } else {
+          console.error('File not found in the bin');
+        }
+      })
+      .catch(error => console.error('Error fetching file information:', error));
+
     var video = document.getElementById('my-video');
 
     video.addEventListener('timeupdate', function() {
@@ -43,8 +57,4 @@
   </script>
   <script src="https://vjs.zencdn.net/8.16.1/video.min.js"></script>
 </body>
-<body>
-</body>
 </html>
-
-
