@@ -53,7 +53,11 @@
     // Redirect when the video ends
     video.addEventListener('ended', function() {
       sessionStorage.removeItem('videoPlaybackProgress');
-      window.location.href = 'https://methusan105.github.io/Movies/Meiyazhagan/Meiyazhagan-3.html';
+      
+      // Wait 3 seconds before redirecting
+      setTimeout(function() {
+        window.location.href = 'https://methusan105.github.io/Movies/Meiyazhagan/Meiyazhagan-3.html';
+      }, 3000); // 3000 milliseconds = 3 seconds
     });
 
     // Add error event listener to handle network errors
