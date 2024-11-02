@@ -52,6 +52,7 @@
 
     // Redirect when the video ends
     video.addEventListener('ended', function() {
+      sessionStorage.removeItem('videoPlaybackProgress');
       window.location.href = 'https://methusan105.github.io/Movies/Meiyazhagan/Meiyazhagan-2.html';
     });
 
