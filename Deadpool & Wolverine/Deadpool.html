@@ -2,9 +2,6 @@
 <html lang="en">
 <head>
   <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
-
-  <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
-  <!-- <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script> -->
 </head>
 <body>
   <video
@@ -17,31 +14,75 @@
     poster="MY_VIDEO_POSTER.jpg"
     data-setup="{}"
   >
-    <source src="" type="video/mp4" />
-    <track kind="subtitles" src="https://raw.githubusercontent.com/Methusan105/Movies/main/Deadpool%20%26%20Wolverine/Deadpool%20%26%20Wolverine.vtt" srclang="en" label="English" default>
+    <source src="https://github.com/Methusan105/Movies/releases/download/DeadWolw/Deadpool.and.Wolverine-1.mp4" type="video/mp4" />
     <p class="vjs-no-js">
       To view this video please enable JavaScript, and consider upgrading to a
       web browser that
-      <a href="https://videojs.com/html5-video-support/" target="_blank"
-        >supports HTML5 video</a
-      >
+      <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
     </p>
   </video>
+
   <script>
     var video = document.getElementById('my-video');
 
+    var videoSources = [
+      'https://github.com/Methusan105/Movies/releases/download/DeadWolw/Deadpool.and.Wolverine-1.mp4',
+      'https://github.com/Methusan105/Movies/releases/download/DeadWolw/Deadpool.and.Wolverine-2.mp4',
+      'https://github.com/Methusan105/Movies/releases/download/DeadWolw/Deadpool.and.Wolverine-3.mp4',
+      'https://github.com/Methusan105/Movies/releases/download/DeadWolw/Deadpool.and.Wolverine-4.mp4',
+      'https://github.com/Methusan105/Movies/releases/download/DeadWolw/Deadpool.and.Wolverine-5.mp4',
+      'https://github.com/Methusan105/Movies/releases/download/DeadWolw/Deadpool.and.Wolverine-6.mp4',
+      'https://github.com/Methusan105/Movies/releases/download/DeadWolw/Deadpool.and.Wolverine-7.mp4',
+      'https://github.com/Methusan105/Movies/releases/download/DeadWolw/Deadpool.and.Wolverine-8.mp4',
+      'https://github.com/Methusan105/Movies/releases/download/DeadWolw/Deadpool.and.Wolverine-9.mp4',
+      'https://github.com/Methusan105/Movies/releases/download/DeadWolw/Deadpool.and.Wolverine-10.mp4',
+      'https://github.com/Methusan105/Movies/releases/download/DeadWolw/Deadpool.and.Wolverine-11.mp4',
+      'https://github.com/Methusan105/Movies/releases/download/DeadWolw/Deadpool.and.Wolverine-12.mp4'
+    ];
+
+    var currentVideoIndex = 0;
+
+    // Function to handle the network error
+    function handleNetworkError() {
+      console.log('A network error has occurred. Refreshing video...');
+
+      // Now load the video after saving the progress
+      video.load();
+
+      // Retrieve progress data from sessionStorage and set currentTime
+      var progressData = sessionStorage.getItem('videoPlaybackProgress');
+      if (progressData) {
+        video.currentTime = parseFloat(progressData);
+      }
+    }
+
+    // Save playback progress
     video.addEventListener('timeupdate', function() {
       sessionStorage.setItem('videoPlaybackProgress', video.currentTime);
     });
 
+    // Restore playback progress
     var savedProgress = sessionStorage.getItem('videoPlaybackProgress');
     if (savedProgress) {
       video.currentTime = parseFloat(savedProgress);
     }
+
+    // Change source when the video ends
+    video.addEventListener('ended', function() {
+      currentVideoIndex++;
+      if (currentVideoIndex < videoSources.length) {
+        var newSource = videoSources[currentVideoIndex];
+        var sourceElement = video.getElementsByTagName('source')[0];
+        sourceElement.src = newSource;
+        video.load(); // Load the new source
+        video.play(); // Start playing the new source automatically
+      }
+    });
+
+    // Add error event listener to handle network errors
+    video.addEventListener('error', handleNetworkError);
   </script>
+
   <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
 </body>
-<body>
-</body>
 </html>
-

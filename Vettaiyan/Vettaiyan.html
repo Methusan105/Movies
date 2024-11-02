@@ -25,7 +25,6 @@
   <script>
     var video = document.getElementById('my-video');
 
-    // Array of video sources
     var videoSources = [
       'https://github.com/Methusan105/Movies/releases/download/Vet/Vettaiyan-1.mp4',
       'https://github.com/Methusan105/Movies/releases/download/Vet/Vettaiyan-2.mp4',
@@ -33,6 +32,20 @@
     ];
 
     var currentVideoIndex = 0;
+
+    // Function to handle the network error
+    function handleNetworkError() {
+      console.log('A network error has occurred. Refreshing video...');
+
+      // Now load the video after saving the progress
+      video.load();
+
+      // Retrieve progress data from sessionStorage and set currentTime
+      var progressData = sessionStorage.getItem('videoPlaybackProgress');
+      if (progressData) {
+        video.currentTime = parseFloat(progressData);
+      }
+    }
 
     // Save playback progress
     video.addEventListener('timeupdate', function() {
@@ -56,6 +69,9 @@
         video.play(); // Start playing the new source automatically
       }
     });
+
+    // Add error event listener to handle network errors
+    video.addEventListener('error', handleNetworkError);
   </script>
 
   <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
