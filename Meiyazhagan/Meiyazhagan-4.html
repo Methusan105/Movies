@@ -28,32 +28,11 @@
     // Function to handle the network error
     function handleNetworkError() {
       console.log('A network error has occurred. Refreshing video...');
-
-      // Now load the video after saving the progress
       video.load();
-
-      // Retrieve progress data from sessionStorage and set currentTime
-      var progressData = sessionStorage.getItem('videoPlaybackProgress');
-      if (progressData) {
-        video.currentTime = parseFloat(progressData);
-      }
-    }
-
-    // Save playback progress
-    video.addEventListener('timeupdate', function() {
-      sessionStorage.setItem('videoPlaybackProgress', video.currentTime);
-    });
-
-    // Restore playback progress
-    var savedProgress = sessionStorage.getItem('videoPlaybackProgress');
-    if (savedProgress) {
-      video.currentTime = parseFloat(savedProgress);
     }
 
     // Redirect when the video ends
     video.addEventListener('ended', function() {
-      sessionStorage.removeItem('videoPlaybackProgress');
-      
       // Wait 3 seconds before redirecting
       setTimeout(function() {
         window.location.href = 'https://methusan105.github.io/Movies/index.html';
