@@ -15,6 +15,7 @@
     data-setup="{}"
   >
     <source src="https://github.com/Methusan105/Movies/releases/download/Mei/Meiyazhagan-1.mp4" type="video/mp4" />
+    <source src="https://github.com/Methusan105/Movies/releases/download/Mei/Meiyazhagan-2.mp4" type="video/mp4" />
     <p class="vjs-no-js">
       To view this video please enable JavaScript, and consider upgrading to a
       web browser that
@@ -22,28 +23,35 @@
     </p>
   </video>
 
+  <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
   <script>
-    var video = document.getElementById('my-video');
+    var player = videojs('my-video');
+    var currentSourceIndex = 0;
+    var sources = [
+      { src: 'https://github.com/Methusan105/Movies/releases/download/Mei/Meiyazhagan-1.mp4', type: 'video/mp4' },
+      { src: 'https://github.com/Methusan105/Movies/releases/download/Mei/Meiyazhagan-2.mp4', type: 'video/mp4' }
+    ];
+
+    function changeSource() {
+      currentSourceIndex = (currentSourceIndex + 1) % sources.length;
+      player.src(sources[currentSourceIndex]);
+      player.load();
+      player.play();
+    }
 
     // Function to handle the network error
     function handleNetworkError() {
       console.log('A network error has occurred. Refreshing video...');
-      video.load();
+      player.load();
     }
 
-    // Redirect when the video ends
-    video.addEventListener('ended', function() {
-      // Wait 3 seconds before redirecting
-      setTimeout(function() {
-        window.location.href = 'https://methusan105.github.io/Movies/Meiyazhagan/Meiyazhagan-2.html';
-      }, 3000); // 3000 milliseconds = 3 seconds
+    // Change source when the video ends
+    player.on('ended', function() {
+      changeSource();
     });
 
     // Add error event listener to handle network errors
-    video.addEventListener('error', handleNetworkError);
+    player.on('error', handleNetworkError);
   </script>
-
-  <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
-  <a href="/Movies/Meiyazhagan/Meiyazhagan-2.html">Continue</a>
 </body>
 </html>
