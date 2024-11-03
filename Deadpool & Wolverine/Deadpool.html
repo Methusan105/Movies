@@ -1,88 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TV-Optimized Clappr Player - Deadpool and Wolverine</title>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@clappr/stats-plugin@latest/dist/clappr-stats.min.js"></script>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #000;
+    }
+    #player {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
 </head>
 <body>
-  <video
-    id="my-video"
-    class="video-js"
-    controls
-    preload="auto"
-    width="640"
-    height="264"
-    poster="MY_VIDEO_POSTER.jpg"
-    data-setup="{}"
-  >
-    <source src="https://github.com/Methusan105/Movies/releases/download/DeadWolw/Deadpool.and.Wolverine-1.mp4" type="video/mp4" />
-    <p class="vjs-no-js">
-      To view this video please enable JavaScript, and consider upgrading to a
-      web browser that
-      <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
-    </p>
-  </video>
+  <div id="player"></div>
 
   <script>
-    var video = document.getElementById('my-video');
-
-    var videoSources = [
-      'https://github.com/Methusan105/Movies/releases/download/DeadWolw/Deadpool.and.Wolverine-1.mp4',
-      'https://github.com/Methusan105/Movies/releases/download/DeadWolw/Deadpool.and.Wolverine-2.mp4',
-      'https://github.com/Methusan105/Movies/releases/download/DeadWolw/Deadpool.and.Wolverine-3.mp4',
-      'https://github.com/Methusan105/Movies/releases/download/DeadWolw/Deadpool.and.Wolverine-4.mp4',
-      'https://github.com/Methusan105/Movies/releases/download/DeadWolw/Deadpool.and.Wolverine-5.mp4',
-      'https://github.com/Methusan105/Movies/releases/download/DeadWolw/Deadpool.and.Wolverine-6.mp4',
-      'https://github.com/Methusan105/Movies/releases/download/DeadWolw/Deadpool.and.Wolverine-7.mp4',
-      'https://github.com/Methusan105/Movies/releases/download/DeadWolw/Deadpool.and.Wolverine-8.mp4',
-      'https://github.com/Methusan105/Movies/releases/download/DeadWolw/Deadpool.and.Wolverine-9.mp4',
-      'https://github.com/Methusan105/Movies/releases/download/DeadWolw/Deadpool.and.Wolverine-10.mp4',
-      'https://github.com/Methusan105/Movies/releases/download/DeadWolw/Deadpool.and.Wolverine-11.mp4',
-      'https://github.com/Methusan105/Movies/releases/download/DeadWolw/Deadpool.and.Wolverine-12.mp4'
+    var sources = [
+      { source: 'https://github.com/Methusan105/Movies/releases/download/DW/Deadpool.and.Wolverine-1.mp4', type: 'video/mp4' },
+      { source: 'https://github.com/Methusan105/Movies/releases/download/DW/Deadpool.and.Wolverine-2.mp4', type: 'video/mp4' },
+      { source: 'https://github.com/Methusan105/Movies/releases/download/DW/Deadpool.and.Wolverine-3.mp4', type: 'video/mp4' },
+      { source: 'https://github.com/Methusan105/Movies/releases/download/DW/Deadpool.and.Wolverine-4.mp4', type: 'video/mp4' },
+      { source: 'https://github.com/Methusan105/Movies/releases/download/DW/Deadpool.and.Wolverine-5.mp4', type: 'video/mp4' },
+      { source: 'https://github.com/Methusan105/Movies/releases/download/DW/Deadpool.and.Wolverine-6.mp4', type: 'video/mp4' },
+      { source: 'https://github.com/Methusan105/Movies/releases/download/DW/Deadpool.and.Wolverine-7.mp4', type: 'video/mp4' },
+      { source: 'https://github.com/Methusan105/Movies/releases/download/DW/Deadpool.and.Wolverine-8.mp4', type: 'video/mp4' },
+      { source: 'https://github.com/Methusan105/Movies/releases/download/DW/Deadpool.and.Wolverine-9.mp4', type: 'video/mp4' },
+      { source: 'https://github.com/Methusan105/Movies/releases/download/DW/Deadpool.and.Wolverine-10.mp4', type: 'video/mp4' },
+      { source: 'https://github.com/Methusan105/Movies/releases/download/DW/Deadpool.and.Wolverine-11.mp4', type: 'video/mp4' },
+      { source: 'https://github.com/Methusan105/Movies/releases/download/DW/Deadpool.and.Wolverine-12.mp4', type: 'video/mp4' }
     ];
 
-    var currentVideoIndex = 0;
+    var currentSourceIndex = 0;
 
-    // Function to handle the network error
+    var player = new Clappr.Player({
+      source: sources[currentSourceIndex].source,
+      parentId: "#player",
+      width: '100%',
+      height: '100%',
+      poster: "MY_VIDEO_POSTER.jpg",
+      autoPlay: false,
+      plugins: [ClapprStats],
+      clapprStats: {
+        runEach: 5000,
+        onReport: function(metrics) {
+          console.log(metrics);
+        }
+      },
+      mediacontrol: {
+        seekbar: "#E113D3",
+        buttons: "#66B2FF"
+      },
+      playback: {
+        playInline: true,
+        recycleVideo: true,
+        hlsjsConfig: {
+          enableWorker: true,
+          lowLatencyMode: true
+        }
+      },
+      events: {
+        onReady: function() {
+          this.core.mediaControl.setKeepVisible(true);
+        }
+      }
+    });
+
+    function changeSource() {
+      currentSourceIndex = (currentSourceIndex + 1) % sources.length;
+      player.configure({
+        source: sources[currentSourceIndex].source,
+        autoPlay: true
+      });
+    }
+
     function handleNetworkError() {
       console.log('A network error has occurred. Refreshing video...');
-
-      // Now load the video after saving the progress
-      video.load();
-
-      // Retrieve progress data from sessionStorage and set currentTime
-      var progressData = sessionStorage.getItem('videoPlaybackProgress');
-      if (progressData) {
-        video.currentTime = parseFloat(progressData);
-      }
+      player.stop();
+      player.play();
     }
 
-    // Save playback progress
-    video.addEventListener('timeupdate', function() {
-      sessionStorage.setItem('videoPlaybackProgress', video.currentTime);
+    player.on(Clappr.Events.PLAYER_ENDED, function() {
+      changeSource();
     });
 
-    // Restore playback progress
-    var savedProgress = sessionStorage.getItem('videoPlaybackProgress');
-    if (savedProgress) {
-      video.currentTime = parseFloat(savedProgress);
-    }
+    player.on(Clappr.Events.PLAYER_ERROR, handleNetworkError);
 
-    // Change source when the video ends
-    video.addEventListener('ended', function() {
-      currentVideoIndex++;
-      if (currentVideoIndex < videoSources.length) {
-        var newSource = videoSources[currentVideoIndex];
-        var sourceElement = video.getElementsByTagName('source')[0];
-        sourceElement.src = newSource;
-        video.load(); // Load the new source
-        video.play(); // Start playing the new source automatically
+    document.addEventListener('keydown', function(e) {
+      switch(e.key) {
+        case 'ArrowLeft':
+          player.seek(player.getCurrentTime() - 10);
+          break;
+        case 'ArrowRight':
+          player.seek(player.getCurrentTime() + 10);
+          break;
+        case 'Enter':
+          player.isPlaying() ? player.pause() : player.play();
+          break;
       }
     });
 
-    // Add error event listener to handle network errors
-    video.addEventListener('error', handleNetworkError);
+    if (document.body.requestFullscreen) {
+      document.body.requestFullscreen();
+    } else if (document.body.mozRequestFullScreen) {
+      document.body.mozRequestFullScreen();
+    } else if (document.body.webkitRequestFullscreen) {
+      document.body.webkitRequestFullscreen();
+    } else if (document.body.msRequestFullscreen) {
+      document.body.msRequestFullscreen();
+    }
   </script>
-
-  <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
 </body>
 </html>
