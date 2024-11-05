@@ -1,0 +1,1 @@
+-ss 0 -t 1350 -accurate_seek
