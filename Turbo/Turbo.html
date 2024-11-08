@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TV-Optimized Clappr Player</title>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@clappr/stats-plugin@latest/dist/clappr-stats.min.js"></script>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #000;
+    }
+    #player {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="player"></div>
+
+  <script>
+    var sources = [
+      { source: 'https://github.com/Methusan105/Movies/releases/download/T/Turbo-1.mp4', type: 'video/mp4' },
+      { source: 'https://github.com/Methusan105/Movies/releases/download/T/Turbo-2.mp4', type: 'video/mp4' },
+      { source: 'https://github.com/Methusan105/Movies/releases/download/T/Turbo-3.mp4', type: 'video/mp4' },
+      { source: 'https://github.com/Methusan105/Movies/releases/download/T/Turbo-4.mp4', type: 'video/mp4' },
+      { source: 'https://github.com/Methusan105/Movies/releases/download/T/Turbo-5.mp4', type: 'video/mp4' },
+      { source: 'https://github.com/Methusan105/Movies/releases/download/T/Turbo-6.mp4', type: 'video/mp4' }
+    ];
+
+    var currentSourceIndex = 0;
+
+    var player = new Clappr.Player({
+      source: sources[currentSourceIndex].source,
+      parentId: "#player",
+      width: '100%',
+      height: '100%',
+      poster: "MY_VIDEO_POSTER.jpg",
+      autoPlay: false,
+      plugins: [ClapprStats],
+      clapprStats: {
+        runEach: 5000,
+        onReport: function(metrics) {
+          console.log(metrics);
+        }
+      },
+      mediacontrol: {
+        seekbar: "#E113D3",
+        buttons: "#66B2FF"
+      },
+      playback: {
+        playInline: true,
+        recycleVideo: true,
+        hlsjsConfig: {
+          enableWorker: true,
+          lowLatencyMode: true
+        }
+      },
+      events: {
+        onReady: function() {
+          this.core.mediaControl.setKeepVisible(true);
+        }
+      }
+    });
+
+    function changeSource() {
+      currentSourceIndex = (currentSourceIndex + 1) % sources.length;
+      player.configure({
+        source: sources[currentSourceIndex].source,
+        autoPlay: true
+      });
+    }
+
+    function handleNetworkError() {
+      console.log('A network error has occurred. Refreshing video...');
+      player.stop();
+      player.play();
+    }
+
+    player.on(Clappr.Events.PLAYER_ENDED, function() {
+      changeSource();
+    });
+
+    player.on(Clappr.Events.PLAYER_ERROR, handleNetworkError);
+
+    // TV-specific optimizations
+    document.addEventListener('keydown', function(e) {
+      switch(e.key) {
+        case 'ArrowLeft':
+          player.seek(player.getCurrentTime() - 10);
+          break;
+        case 'ArrowRight':
+          player.seek(player.getCurrentTime() + 10);
+          break;
+        case 'Enter':
+          player.isPlaying() ? player.pause() : player.play();
+          break;
+      }
+    });
+
+    // Fullscreen on TV
+    if (document.body.requestFullscreen) {
+      document.body.requestFullscreen();
+    } else if (document.body.mozRequestFullScreen) {
+      document.body.mozRequestFullScreen();
+    } else if (document.body.webkitRequestFullscreen) {
+      document.body.webkitRequestFullscreen();
+    } else if (document.body.msRequestFullscreen) {
+      document.body.msRequestFullscreen();
+    }
+  </script>
+</body>
+</html>
