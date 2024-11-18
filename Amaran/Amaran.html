@@ -71,9 +71,23 @@
 
     function handleNetworkError() {
       console.log('A network error has occurred. Refreshing video...');
-      player.pause();
-      player.currentTime(0);
-      player.play();
+      
+      // Save current progress to sessionStorage
+      sessionStorage.setItem('videoProgress', player.currentTime());
+      
+      // Load the current video source
+      player.src(sources[currentSourceIndex]);
+      
+      player.on('loadeddata', function() {
+        // Retrieve progress from sessionStorage and set currentTime
+        var savedProgress = sessionStorage.getItem('videoProgress');
+        if (savedProgress) {
+          player.currentTime(parseFloat(savedProgress));
+          // Remove the saved progress
+          sessionStorage.removeItem('videoProgress');
+        }
+        player.play();
+      });
     }
 
     player.on('ended', function() {
