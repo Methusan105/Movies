@@ -49,23 +49,21 @@
     var currentSourceIndex = 0;
 
     var player = videojs('my-video', {
-      playbackRates: [0.5, 1, 1.5, 2],
+      autoplay: false,
       responsive: true,
       fluid: true,
-      controlBar: {
-        children: [
-          'playToggle',
-          'volumePanel',
-          'currentTimeDisplay',
-          'timeDivider',
-          'durationDisplay',
-          'progressControl',
-          'fullscreenToggle'
-        ]
+      sources: [sources[currentSourceIndex]],
+      plugins: {
+        landscapeFullscreen: {
+          fullscreen: {
+            enterOnRotate: true,
+            exitOnRotate: true,
+            alwaysInLandscapeMode: true,
+            iOS: true
+          }
+        }
       }
     });
-
-    player.src(sources[currentSourceIndex]);
 
     function changeSource() {
       currentSourceIndex = (currentSourceIndex + 1) % sources.length;
@@ -75,9 +73,23 @@
 
     function handleNetworkError() {
       console.log('A network error has occurred. Refreshing video...');
-      player.reset();
+      
+      // Save current progress to sessionStorage
+      sessionStorage.setItem('videoProgress', player.currentTime());
+      
+      // Load the current video source
       player.src(sources[currentSourceIndex]);
-      player.play();
+      
+      player.on('loadeddata', function() {
+        // Retrieve progress from sessionStorage and set currentTime
+        var savedProgress = sessionStorage.getItem('videoProgress');
+        if (savedProgress) {
+          player.currentTime(parseFloat(savedProgress));
+          // Remove the saved progress
+          sessionStorage.removeItem('videoProgress');
+        }
+        player.play();
+      });
     }
 
     player.on('ended', function() {
@@ -86,6 +98,7 @@
 
     player.on('error', handleNetworkError);
 
+    // TV-specific optimizations
     document.addEventListener('keydown', function(e) {
       switch(e.key) {
         case 'ArrowLeft':
@@ -100,15 +113,19 @@
       }
     });
 
-    if (document.body.requestFullscreen) {
-      document.body.requestFullscreen();
-    } else if (document.body.mozRequestFullScreen) {
-      document.body.mozRequestFullScreen();
-    } else if (document.body.webkitRequestFullscreen) {
-      document.body.webkitRequestFullscreen();
-    } else if (document.body.msRequestFullscreen) {
-      document.body.msRequestFullscreen();
-    }
+    // Auto fullscreen
+    player.ready(function() {
+      this.requestFullscreen();
+    });
+
+    // Auto hide controls
+    player.on('useractive', function() {
+      player.controlBar.show();
+    });
+
+    player.on('userinactive', function() {
+      player.controlBar.hide();
+    });
   </script>
 </body>
 </html>
