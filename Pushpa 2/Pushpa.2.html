@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TV-Optimized Video.js Player</title>
+  <link href="https://vjs.zencdn.net/8.16.1/video-js.min.css" rel="stylesheet">
+  <script src="https://vjs.zencdn.net/8.16.1/video.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-landscape-fullscreen@11.1.0/dist/videojs-landscape-fullscreen.min.js"></script>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #000;
+    }
+    #my-video {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <video
+    id="my-video"
+    class="video-js vjs-default-skin vjs-big-play-centered"
+    controls
+    preload="auto"
+    poster="MY_VIDEO_POSTER.jpg"
+    data-setup='{}'
+  >
+    <p class="vjs-no-js">
+      To view this video please enable JavaScript, and consider upgrading to a
+      web browser that supports HTML5 video
+    </p>
+  </video>
+
+  <script>
+    var sources = [
+      { src: 'https://github.com/Methusan105/Movies/releases/download/P2/Pushpa.2-0.mp4', type: 'video/mp4' },
+      { src: 'https://github.com/Methusan105/Movies/releases/download/P2/Pushpa.2-1.mp4', type: 'video/mp4' },
+      { src: 'https://github.com/Methusan105/Movies/releases/download/P2/Pushpa.2-2.mp4', type: 'video/mp4' }
+    ];
+
+    var currentSourceIndex = 0;
+
+    var player = videojs('my-video', {
+      autoplay: false,
+      responsive: true,
+      fluid: true,
+      sources: [sources[currentSourceIndex]],
+      plugins: {
+        landscapeFullscreen: {
+          fullscreen: {
+            enterOnRotate: true,
+            exitOnRotate: true,
+            alwaysInLandscapeMode: true,
+            iOS: true
+          }
+        }
+      }
+    });
+
+    function changeSource() {
+      currentSourceIndex = (currentSourceIndex + 1) % sources.length;
+      player.src(sources[currentSourceIndex]);
+      player.play();
+    }
+
+    function handleNetworkError() {
+      console.log('A network error has occurred. Refreshing video...');
+      
+      // Save current progress to sessionStorage
+      sessionStorage.setItem('videoProgress', player.currentTime());
+      
+      // Load the current video source
+      player.src(sources[currentSourceIndex]);
+      
+      player.on('loadeddata', function() {
+        // Retrieve progress from sessionStorage and set currentTime
+        var savedProgress = sessionStorage.getItem('videoProgress');
+        if (savedProgress) {
+          player.currentTime(parseFloat(savedProgress));
+          // Remove the saved progress
+          sessionStorage.removeItem('videoProgress');
+        }
+        player.play();
+      });
+    }
+
+    player.on('ended', function() {
+      changeSource();
+    });
+
+    player.on('error', handleNetworkError);
+
+    // TV-specific optimizations
+    document.addEventListener('keydown', function(e) {
+      switch(e.key) {
+        case 'ArrowLeft':
+          player.currentTime(player.currentTime() - 10);
+          break;
+        case 'ArrowRight':
+          player.currentTime(player.currentTime() + 10);
+          break;
+        case 'Enter':
+          player.paused() ? player.play() : player.pause();
+          break;
+      }
+    });
+
+    // Auto fullscreen
+    player.ready(function() {
+      this.requestFullscreen();
+    });
+
+    // Auto hide controls
+    player.on('useractive', function() {
+      player.controlBar.show();
+    });
+
+    player.on('userinactive', function() {
+      player.controlBar.hide();
+    });
+  </script>
+</body>
+</html>
