@@ -31,6 +31,7 @@
     poster="MY_VIDEO_POSTER.jpg"
     data-setup='{}'
   >
+    <track kind="subtitles" src="https://raw.githubusercontent.com/Methusan105/Movies/main/Sonic%20the%20Hedgehog%203/Sonic.the.Hedgehog.3.vtt" srclang="en" label="English" default>
     <p class="vjs-no-js">
       To view this video please enable JavaScript, and consider upgrading to a
       web browser that supports HTML5 video
@@ -44,6 +45,7 @@
     ];
 
     var currentSourceIndex = 0;
+    var subtitleOffset = 3500;
 
     var player = videojs('my-video', {
       autoplay: false,
@@ -59,30 +61,48 @@
             iOS: true
           }
         }
+      },
+      textTrackSettings: {
+        backgroundColor: '#000',
+        backgroundOpacity: '0',
+        edgeStyle: 'raised'
       }
     });
+
+    function adjustSubtitleTiming(player, offset) {
+      var tracks = player.textTracks();
+      for (var i = 0; i < tracks.length; i++) {
+        var track = tracks[i];
+        if (track.kind === 'subtitles' || track.kind === 'captions') {
+          for (var j = 0; j < track.cues.length; j++) {
+            var cue = track.cues[j];
+            cue.startTime += offset;
+            cue.endTime += offset;
+          }
+        }
+      }
+    }
 
     function changeSource() {
       currentSourceIndex = (currentSourceIndex + 1) % sources.length;
       player.src(sources[currentSourceIndex]);
-      player.play();
+      player.ready(function() {
+        adjustSubtitleTiming(player, subtitleOffset);
+        player.play();
+      });
     }
 
     function handleNetworkError() {
       console.log('A network error has occurred. Refreshing video...');
       
-      // Save current progress to sessionStorage
       sessionStorage.setItem('videoProgress', player.currentTime());
       
-      // Load the current video source
       player.src(sources[currentSourceIndex]);
       
       player.on('loadeddata', function() {
-        // Retrieve progress from sessionStorage and set currentTime
         var savedProgress = sessionStorage.getItem('videoProgress');
         if (savedProgress) {
           player.currentTime(parseFloat(savedProgress));
-          // Remove the saved progress
           sessionStorage.removeItem('videoProgress');
         }
         player.play();
@@ -95,7 +115,10 @@
 
     player.on('error', handleNetworkError);
 
-    // TV-specific optimizations
+    player.on('loadedmetadata', function() {
+      adjustSubtitleTiming(player, subtitleOffset);
+    });
+
     document.addEventListener('keydown', function(e) {
       switch(e.key) {
         case 'ArrowLeft':
@@ -110,12 +133,10 @@
       }
     });
 
-    // Auto fullscreen
     player.ready(function() {
       this.requestFullscreen();
     });
 
-    // Auto hide controls
     player.on('useractive', function() {
       player.controlBar.show();
     });
