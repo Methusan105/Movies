@@ -1,0 +1,88 @@
+name: Download Torrents with aria2c
+
+on:
+  workflow_dispatch:
+    inputs:
+      torrent_urls:
+        description: 'Torrent URLs or magnet links (up to 5, separated by commas or spaces)'
+        required: true
+      maximize_disk_space:
+        description: Maximize disk space. Check if getting out of disk space error
+        type: boolean
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+    - name: Maximize disk space
+      if: inputs.maximize_disk_space
+      uses: easimon/maximize-build-space@v10
+      with:
+        remove-dotnet: true
+        remove-android: true
+        remove-haskell: true
+        remove-codeql: true
+        remove-docker-images: true
+        
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install aria2c
+      run: sudo apt-get update && sudo apt-get install -y aria2
+
+    - name: Download torrents with aria2c
+      run: |
+        mkdir -p downloads
+        URLS=$(echo "${{ inputs.torrent_urls }}" | tr ',' ' ')
+        for url in $URLS; do
+          aria2c --dir=downloads "$url"
+        done
+
+    - name: Sanitize, split, and upload files
+      run: |
+        shopt -s nullglob
+        gh release create torrents --title "torrents" --notes "Downloaded via aria2c" || true
+        cd downloads
+        for file in *; do
+          if [[ -f "$file" && "$file" != "README.md" && "$file" != ".github" && "$file" != ".gitignore" ]]; then
+            extension="${file##*.}"
+            random_name=$(uuidgen)
+            new_name="${random_name}.${extension}"
+
+            while gh release view torrents --json assets --jq ".assets[].name" | grep -q "$new_name"; do
+              random_name=$(uuidgen)
+              new_name="${random_name}.${extension}"
+            done
+
+            filesize=$(stat -c%s "$file")
+            if [ "$filesize" -gt 2000000000 ]; then
+              split -b 2000m "$file" "${new_name}.part_"
+              for part in "${new_name}.part_"*; do
+                part_size=$(stat -c%s "$part")
+                part_new_name="${new_name}.${part##*.}"
+
+                while gh release view torrents --json assets --jq ".assets[].name" | grep -q "$part_new_name"; do
+                  random_name=$(uuidgen)
+                  new_name="${random_name}.${extension}"
+                  part_new_name="${new_name}.${part##*.}"
+                done
+
+                echo "Uploading $part ($part_size bytes) as $part_new_name"
+                gh release upload "torrents" "./$part" --clobber
+              done
+            else
+              mv "$file" "$new_name"
+              file_size=$(stat -c%s "$new_name")
+              echo "Uploading $new_name ($file_size bytes)"
+              gh release upload "torrents" "./$new_name" --clobber
+            fi
+          fi
+        done
+      env:
+        GITHUB_TOKEN: ${{ secrets.PAT }}
+
+    - name: List files after processing
+      run: ls -la downloads
