@@ -1,4 +1,4 @@
-import os
+import subprocess
 filepath = input("Enter file Path: ")
 release_file_path = rf"{filepath}"
 release_tag = str(input("Enter Release Tag: "))
@@ -12,4 +12,4 @@ for i in range(startnum, files+1):
     command = f'gh release upload {release_tag} "{file_path}" --clobber'
     
     # Execute the command
-    os.system(command)
+    subprocess.run(command, shell=True)
