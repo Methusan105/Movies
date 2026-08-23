@@ -1,1 +1,1 @@
-"C:\Program Files (x86)\FFmpegGUI\ffmpeg.exe" -i "C:\Users\Methu\Downloads\Video\Karnan.mp4" -c copy -f segment -segment_time 1500 -reset_timestamps 1 -map 0 -segment_format mp4 "C:\Users\Methu\Downloads\Karnan-%01d.mp4"
+FILE="/home/methu/Nedlastinger/Jana Nayagan 2026.mp4" && ffmpeg -i "$FILE" -c copy -map 0 -segment_time $(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "$FILE" | awk '{print int(1950 * $1 / ('$(stat -c%s "$FILE")' / 1048576))}') -f segment -reset_timestamps 1 "Karnan-%01d.mp4"
