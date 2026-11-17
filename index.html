@@ -1,101 +1,61 @@
 <!DOCTYPE HTML>
-<html>
-	<head>
-		<title>Movies</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-	</head>
-	<body class="is-preload">
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Movies</title>
+  <link rel="stylesheet" href="/Movies/assets/css/series.css" />
+</head>
+<body class="is-preload">
 
-		<!-- Wrapper -->
-			<div id="wrapper" class="fade-in">
+    <div id="main">
+      <article class="post featured">
+        <header class="series-header">
+          <h1>Available Movies</h1>
+          <p>Pick a movie to resume playback</p>
+        </header>
+        <main class="seasons">
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Amaran/Amaran.html"><span>Amaran</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Andhagan/Andhagan.html"><span>Andhagan</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Aranmanai%204/Aranmanai.html"><span>Aranmanai 4</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Black/Black.html"><span>Black</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Chandramukhi%202/Chandramukhi%202.html"><span>Chandramukhi 2</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Deadpool/Deadpool.html"><span>Deadpool</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Deadpool%202/Deadpool.2.html"><span>Deadpool 2</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Deadpool%20%26%20Wolverine/Deadpool.3.html"><span>Deadpool & Wolverine</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Everything%20Everywhere%20All%20at%20Once/Everything%20Everywhere%20All%20at%20Once.html"><span>Everything Everywhere All at Once</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Five%20Nights%20At%20Freddys/Five.html"><span>Five Nights At Freddys</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Guntur%20Kaaram/Guntur.html"><span>Guntur Kaaram</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Hundred%20Meters/Hundred.Meters.html"><span>Hundred Meters</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Iraivan/Iraivan.html"><span>Iraivan</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Jailer/Jailer.html"><span>Jailer</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Japan/Japan.html"><span>Japan</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Kanchana%203/Kanchana.3.html"><span>Kanchana 3</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Kanguva/Kanguva.html"><span>Kanguva</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Karnan/Karnan.html"><span>Karnan</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Maharaja/Maharaja.html"><span>Maharaja</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Meiyazhagan/Meiyazhagan.html"><span>Meiyazhagan</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Mission%20Chapter%201/Mission.html"><span>Mission Chapter 1</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Maamannan/Maamannan.html"><span>Maamannan</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Maaveeran/Maaveeran.html"><span>Maaveeran</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Parasakthi/Parasakthi.html"><span>Parasakthi</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Partner/Partner.html"><span>Partner</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Pushpa%202/Pushpa.2.html"><span>Pushpa 2</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Ramabanam/Ramabanam.html"><span>Ramabanam</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Sonic%20the%20Hedgehog%203/Sonic.the.Hedgehog.3.html"><span>Sonic the Hedgehog 3</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/The%20Greatest%20Of%20All%20Time/GOAT.html"><span>The Greatest Of All Time</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/The%20Warriorr/Warriorr.html"><span>The Warriorr</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Turbo/Turbo.html"><span>Turbo</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Venom/Venom.html"><span>Venom</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Venom%202/Venom.2.html"><span>Venom 2</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Venom%203/Venom.3.html"><span>Venom 3</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Vettaiyan/Vettaiyan.html"><span>Vettaiyan</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Vaathi/Vaathi.html"><span>Vaathi</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Vaazhai/Vaazhai.html"><span>Vaazhai</span></a>
+          <a class="season-card" onclick="clearGistProgress()" href="/Movies/Youth/Youth.html"><span>Youth</span></a>
+        </main>
+      </article>
+    </div>
 
-				<!-- Intro -->
-					<div id="intro">
-						<h1>Welcome To <br />
-						Movies site</h1>
-						<p> <br />
-						</p>
-					</div>
-
-				<!-- Header -->
-					<header id="header">
-						<a href="index.html" class="logo">Movies</a>
-					</header>
-
-				<!-- Nav -->
-					<nav id="nav">
-						<ul class="links">
-							<li class="active"><a class="kol" href="index.html">Movies</a></li>
-						</ul>
-					</nav>
-
-				<!-- Main -->
-					<div id="main">
-
-						<!-- Featured Post -->
-							<article class="post featured">
-								<header class="major">
-									<h2><a href="#">Available Movies<br /></a></h2>
-									<p>List of available Movies</p>
-									<ul id="you">
-										<li><a>Tamil Movies</a></li>
-										<li><a href="/Movies/Vaathi/Vaathi.html">Vaathi</a></li>
-										<li><a href="/Movies/Jailer/Jailer.html">Jailer</a></li>
-										<li><a href="/Movies/Maaveeran/Maaveeran.html">Maaveeran</a></li>
-										<li><a href="/Movies/Maamannan/Maamannan.html">Maamannan</a></li>
-										<li><a href="/Movies/Ramabanam/Ramabanam.html">Ramabanam</a></li>
-										<li><a href="/Movies/Partner/Partner.html">Partner</a></li>
-										<li><a href="/Movies/Chandramukhi%202/Chandramukhi%202.html">Chandramukhi 2</a></li>
-										<li><a href="/Movies/Iraivan/Iraivan.html">Iraivan</a></li>
-										<li><a href="/Movies/Guntur%20Kaaram/Guntur.html">Guntur Kaaram</a></li>
-										<li><a href="/Movies/Japan/Japan.html">Japan</a></li>
-										<li><a href="/Movies/Meiyazhagan/Meiyazhagan.html">Meiyazhagan</a></li>
-										<li><a href="/Movies/Vettaiyan/Vettaiyan.html">Vettaiyan</a></li>
-										<li><a href="/Movies/Black/Black.html">Black</a></li>
-										<li><a href="/Movies/Vaazhai/Vaazhai.html">Vaazhai</a></li>
-										<li><a href="/Movies/Karnan/Karnan.html">Karnan</a></li>
-										<li><a href="/Movies/Turbo/Turbo.html">Turbo</a></li>
-										<li><a href="/Movies/Amaran/Amaran.html">Amaran</a></li>
-										<li><a href="/Movies/Andhagan/Andhagan.html">Andhagan</a></li>
-										<li><a href="/Movies/Kanguva/Kanguva.html">Kanguva</a></li>
-										<li><a href="/Movies/Pushpa%202/Pushpa.2.html">Pushpa 2</a></li>
-										<li><a href="/Movies/Maharaja/Maharaja.html">Maharaja</a></li>										
-										<li><a href="/Movies/The%20Warriorr/Warriorr.html">The Warriorr</a></li>
-										<li><a href="/Movies/Aranmanai%204/Aranmanai.html">Aranmanai 4</a></li>
-										<li><a href="/Movies/The%20Greatest%20Of%20All%20Time/GOAT.html">The Greatest Of All Time</a></li>
-										<li><a href="/Movies/Kanchana%203/Kanchana.3.html">Kanchana 3</a></li>
-										<li><a href="/Movies/Parasakthi/Parasakthi.html">Parasakthi</a></li>
-										<li><a href="/Movies/Youth/Youth.html">Youth</a></li>
-									</ul>
-									<ul>
-										<li><a>English Movies</a></li>
-										<li><a href="/Movies/Five%20Nights%20At%20Freddys/Five.html">Five Nights At Freddys</a></li>
-										<li><a href="/Movies/Deadpool/Deadpool.html">Deadpool</a></li>
-										<li><a href="/Movies/Deadpool%202/Deadpool.2.html">Deadpool 2</a></li>
-										<li><a href="/Movies/Deadpool%20%26%20Wolverine/Deadpool.3.html">Deadpool & Wolverine</a></li>
-										<li><a href="/Movies/Venom/Venom.html">Venom</a></li>
-										<li><a href="/Movies/Venom%202/Venom.2.html">Venom 2</a></li>
-										<li><a href="/Movies/Venom%203/Venom.3.html">Venom: The Last Dance</a></li>
-										<li><a href="/Movies/Mission%20Chapter%201/Mission.html">Mission Chapter: 1</a></li>
-										<li><a href="/Movies/Sonic%20the%20Hedgehog%203/Sonic.the.Hedgehog.3.html">Sonic the Hedgehog 3</a></li>
-										<li><a href="/Movies/Everything%20Everywhere%20All%20at%20Once/Everything%20Everywhere%20All%20at%20Once.html">Everything Everywhere All at Once</a></li>
-										<li><a href="/Movies/Hundred%20Meters/Hundred.Meters.html">Hundred Meters</a></li>
-									</ul>
-								</header>
-							</article>
-
-				
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
-
-	</body>
+</body>
 </html>
